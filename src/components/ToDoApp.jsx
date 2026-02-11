@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo, deleteTodo, updateTodo } from "../redux/todoSlice";
+import "./ToDoApp.css";
 
 export default function TodoApp() {
 
@@ -25,48 +26,59 @@ export default function TodoApp() {
     };
 
     return (
-        <div style={{ padding: 30 }}>
+        <div className="todo-container">
 
-            {/* Add Todo */}
-            <input
-                value={text}
-                onChange={e => setText(e.target.value)}
-                placeholder="Enter todo"
-            />
+            <h2>Redux Todo App</h2>
 
-            <button onClick={handleAdd}>Add</button>
+            <div className="add-row">
+                <input
+                    className="todo-input"
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    placeholder="Enter todo"
+                />
 
-            <hr />
+                <button className="add-btn" onClick={handleAdd}>Add</button>
+            </div>
 
-            {/* Todo List */}
             {todos.map(todo => (
-                <div key={todo.id} style={{ marginBottom: 10 }}>
+                <div key={todo.id} className="todo-item">
 
                     {editingId === todo.id ? (
                         <>
                             <input
+                                className="todo-input"
                                 value={editingText}
                                 onChange={e => setEditingText(e.target.value)}
                             />
 
-                            <button onClick={() => handleSave(todo.id)}>Save</button>
-
-                            <button onClick={() => setEditingId(null)}>Cancel</button>
+                            <div className="todo-actions">
+                                <button className="save-btn" onClick={() => handleSave(todo.id)}>Save</button>
+                                <button className="cancel-btn" onClick={() => setEditingId(null)}>Cancel</button>
+                            </div>
                         </>
                     ) : (
                         <>
-                            <span>{todo.text}</span>
+                            <span className="todo-text">{todo.text}</span>
 
-                            <button onClick={() => {
-                                setEditingId(todo.id);
-                                setEditingText(todo.text);
-                            }}>
-                                Edit
-                            </button>
+                            <div className="todo-actions">
+                                <button
+                                    className="edit-btn"
+                                    onClick={() => {
+                                        setEditingId(todo.id);
+                                        setEditingText(todo.text);
+                                    }}
+                                >
+                                    Edit
+                                </button>
 
-                            <button onClick={() => dispatch(deleteTodo(todo.id))}>
-                                Delete
-                            </button>
+                                <button
+                                    className="delete-btn"
+                                    onClick={() => dispatch(deleteTodo(todo.id))}
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </>
                     )}
 
